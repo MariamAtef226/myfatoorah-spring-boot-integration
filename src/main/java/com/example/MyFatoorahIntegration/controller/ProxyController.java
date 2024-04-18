@@ -63,7 +63,9 @@ public class ProxyController {
 
     @GetMapping("/get-suppliers")
     public ResponseEntity<?> getSuppliers(){
-        String apiUrl = "https://apitest.myfatoorah.com/v2/GetSuppliers";
+//        String apiUrl = "https://apitest.myfatoorah.com/v2/GetSuppliers";
+                String apiUrl = "https://apitest.myfatoorah.com/v2/GetSupplierDashboard?SupplierCode=1";
+
         // Create a RestTemplate instance
         RestTemplate restTemplate = new RestTemplate();
 
