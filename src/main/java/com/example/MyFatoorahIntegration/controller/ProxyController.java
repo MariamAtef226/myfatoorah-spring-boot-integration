@@ -1,14 +1,8 @@
 package com.example.MyFatoorahIntegration.controller;
 
 import com.example.MyFatoorahIntegration.payload.InvoiceData;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.*;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
@@ -67,6 +61,37 @@ public class ProxyController {
 
     }
 
+    @GetMapping("/get-suppliers")
+    public ResponseEntity<?> getSuppliers(){
+        String apiUrl = "https://apitest.myfatoorah.com/v2/GetSuppliers";
+        // Create a RestTemplate instance
+        RestTemplate restTemplate = new RestTemplate();
 
+        // Set the request headers
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization",authorization);
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+//        ResponseEntity<String> response = restTemplate.getForEntity(apiUrl, headers, String.class);
+//        return ResponseEntity.ok()
+//                .body(response.getBody());
+        ResponseEntity<String> response = restTemplate.exchange(
+                apiUrl,
+                HttpMethod.GET,
+                entity,
+                String.class
+        );
+
+        // Handle response
+        HttpStatusCode statusCode = response.getStatusCode();
+        if (statusCode == HttpStatus.OK) {
+            return ResponseEntity.ok()
+               .body(response.getBody());
+            // Process responseBody as needed
+        } else {
+            return ResponseEntity.badRequest().body("FAILED");
+
+        }
+    }
 }
 
